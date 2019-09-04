@@ -1,4 +1,4 @@
-# svdbs
+# svdbs: In Development
 A suite of tools to easily extract data from svdbs and supporting tables
 
 To use this package successfully you will need:
