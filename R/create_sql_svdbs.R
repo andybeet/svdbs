@@ -1,10 +1,10 @@
 # called by all functions to formal the call to the svdbs database
 #
 
-create_sql_cfdbs <- function(dataName,fieldName,fieldName2,dataType,defaultSqlStatement) {
-  
+create_sql_svdbs <- function(dataName,fieldName,fieldName2,dataType,defaultSqlStatement) {
+
   sqlStatement <- defaultSqlStatement
-  
+
   if (is.numeric(dataName)) { # convert to string as where clause
     str <- sprintf(dataType,dataName)
     str <- paste0("'", str, "'", collapse=", ")
@@ -24,7 +24,7 @@ create_sql_cfdbs <- function(dataName,fieldName,fieldName2,dataType,defaultSqlSt
     where <-  paste0(" (",fieldName," in (",str,"))")
     sqlStatement <- paste(sqlStatement,"where",where,";")
   }
-  
+
   return(sqlStatement)
-  
+
 }

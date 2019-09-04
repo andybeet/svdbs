@@ -18,8 +18,8 @@
 #'The default sql statement "\code{select * from svdbs.svspecies_list}" is used
 #'
 #'@section Reference:
-#'Use the data dictionary (\url{http://nova.nefsc.noaa.gov/datadict/}) for field name explanations. 
-#'Note: species codes (svspp) are stored in the database as VARCHAR2(3 BYTE) 
+#'Use the data dictionary (\url{http://nova.nefsc.noaa.gov/datadict/}) for field name explanations.
+#'Note: species codes (svspp) are stored in the database as VARCHAR2(3 BYTE)
 #'
 #' @seealso \code{\link{connect_to_database}}
 #'
@@ -29,16 +29,16 @@
 #' channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 #' get_species(channel)
 #'
-#' # extracts info for cod (73) 
+#' # extracts info for cod (73)
 #' channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 #' get_species(channel,species=73)
-#' 
-#' # extracts info for cod ("COD") 
+#'
+#' # extracts info for cod ("COD")
 #' channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 #' get_species(channel,"cod") or
 #' get_species(channel,"co") or
 #' get_species(channel,"COD")
-#' 
+#'
 #'
 #' # extracts info for cod (73)  and bluefish (135)
 #' channel <- connect_to_database(server="name_of_server",uid="individuals_username")
@@ -53,7 +53,7 @@
 get_species <- function(channel,species="all"){
 
   # creates the sql based on user input
-  sqlStatement <- create_sql_cfdbs(species,fieldName="svspp",fieldName2="comname",dataType="%03d",defaultSqlStatement="select * from svdbs.svspecies_list")
+  sqlStatement <- create_sql_svdbs(species,fieldName="svspp",fieldName2="comname",dataType="%03d",defaultSqlStatement="select * from svdbs.svspecies_list")
 
   query <- RODBC::sqlQuery(channel,sqlStatement,errors=TRUE,as.is=TRUE)
 
