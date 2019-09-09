@@ -17,41 +17,39 @@
 #'   \item{colNames}{a vector of the table's column names}
 #'
 #'@section Reference:
-#'Use the data dictionary (\url{http://nova.nefsc.noaa.gov/datadict/}) for field name explanations. 
-#'Note: species codes (svspp) are stored in the database as VARCHAR2(3 BYTE) 
+#'Use the data dictionary (\url{http://nova.nefsc.noaa.gov/datadict/}) for field name explanations.
+#'Note: species codes (svspp) are stored in the database as VARCHAR2(3 BYTE)
 #'
 #' @seealso \code{\link{connect_to_database}}
 #'
 #' @examples
 #' \dontrun{
-#' # extracts info for cod (73) 
+#' # extracts info for cod (73)
 #' channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 #' get_length_age(channel,species=73)
-#' 
-#' # extracts info for cod ("COD") 
+#'
+#' # extracts info for cod ("COD")
 #' channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 #' get_length_age(channel,"cod") or
 #' get_length_age(channel,"co") or
 #' get_length_age(channel,"COD")
-#' 
+#'
 #'}
 #'
 #' @export
 
 
-get_weight_length <- function(channel, year=1994, species="all", sex="all"){
+get_length_weight <- function(channel, year=1994, species="all", sex="all"){
 
   if ((year == "all") & (species == "all")) stop("Can not pull all species and all years. Too much data!!")
-  
+
   # create an SQL query to extract all relavent data from tables
   # list of strings to build where clause in sql statement
   whereVec <- list()
 
   whereVec[[1]] <-  createString(itemName="svspp",species,convertToCharacter=TRUE,numChars=3)
-  whereVec[[3]] <-  createString(itemName="year",year,convertToCharacter=TRUE,numChars=4)
-  
-  
- 
+  whereVec[[3]] <-  createStringYear(itemName="cruise6",year,convertToCharacter=TRUE,numChars=4)
+
   # sex conversion
   if (tolower(sex) == "all") {
     sex <- c(0,1,2)
@@ -75,13 +73,12 @@ get_weight_length <- function(channel, year=1994, species="all", sex="all"){
   }
 
 
-  
+
   # eventually user will be able to pass these variables
-  sqlStatement <- "select cruise6, cruise, stratum, tow, station,svspp, sex, indid, length, indwt  
-                    from svdbs.union_fscsc_svbio"
+  sqlStatement <- "select cruise6, stratum, tow, station,svspp, sex, indid, length, indwt
+                    from svdbs.union_fscs_svbio"
 
   sqlStatement <- paste(sqlStatement,whereStr)
-print(sqlStatement)
   # call database
   query <- RODBC::sqlQuery(channel,sqlStatement,errors=TRUE,as.is=TRUE)
 
