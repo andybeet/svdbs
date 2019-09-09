@@ -28,7 +28,7 @@ Extract a list of speices names, code, market category, etc from the SVDBS SVSPE
 }
 \section{Reference}{
 
-Use the data dictionary (\url{http://nova.nefsc.noaa.gov/datadict/}) for field name explanations. 
+Use the data dictionary (\url{http://nova.nefsc.noaa.gov/datadict/}) for field name explanations.
 Note: species codes (svspp) are stored in the database as VARCHAR2(3 BYTE)
 }
 
@@ -38,11 +38,11 @@ Note: species codes (svspp) are stored in the database as VARCHAR2(3 BYTE)
 channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 get_species(channel)
 
-# extracts info for cod (73) 
+# extracts info for cod (73)
 channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 get_species(channel,species=73)
 
-# extracts info for cod ("COD") 
+# extracts info for cod ("COD")
 channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 get_species(channel,"cod") or
 get_species(channel,"co") or
