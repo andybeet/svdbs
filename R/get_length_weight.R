@@ -75,8 +75,9 @@ get_length_weight <- function(channel, year=1994, species="all", sex="all"){
 
 
   # eventually user will be able to pass these variables
-  sqlStatement <- "select cruise6, stratum, tow, station,svspp, sex, indid, length, indwt
-                    from svdbs.union_fscs_svbio"
+  sqlStatement <- "select m.cruise6, m.stratum, m.tow, m.station, m.svspp, m.sex, m.indid, m.length, m.indwt, s.season
+                    from svdbs.union_fscs_svbio m LEFT JOIN svdbs.svdbs_cruises s
+                    ON m.cruise6 = s.cruise6 "
 
   sqlStatement <- paste(sqlStatement,whereStr)
   # call database
@@ -86,7 +87,7 @@ get_length_weight <- function(channel, year=1994, species="all", sex="all"){
   sqlcolName <- "select COLUMN_NAME from ALL_TAB_COLUMNS where TABLE_NAME = 'UNION_FSCS_SVBIO' and owner='SVDBS';"
   colNames <- RODBC::sqlQuery(channel,sqlcolName,errors=TRUE,as.is=TRUE)
 
-  return (list(data=query,sql=sqlStatement, colNames=colNames))
+  return (list(data=dplyr::as_tibble(query),sql=sqlStatement, colNames=colNames))
 }
 
 

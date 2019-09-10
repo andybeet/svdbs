@@ -61,7 +61,7 @@ get_species <- function(channel,species="all"){
   sqlcolName <- "select COLUMN_NAME from ALL_TAB_COLUMNS where TABLE_NAME = 'SVSPECIES_LIST' and owner='SVDBS';"
   colNames <- t(RODBC::sqlQuery(channel,sqlcolName,errors=TRUE,as.is=TRUE))
 
-  return (list(data=query,sql=sqlStatement, colNames=colNames))
+  return (list(data=dplyr::as_tibble(query),sql=sqlStatement, colNames=colNames))
 
 }
 
