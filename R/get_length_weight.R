@@ -48,7 +48,7 @@ get_length_weight <- function(channel, year=1994, species="all", sex="all"){
   whereVec <- list()
 
   whereVec[[1]] <-  createString(itemName="svspp",species,convertToCharacter=TRUE,numChars=3)
-  whereVec[[3]] <-  createStringYear(itemName="cruise6",year,convertToCharacter=TRUE,numChars=4)
+  whereVec[[3]] <-  createStringYear(itemName="year",year,convertToCharacter=TRUE,numChars=4)
 
   # sex conversion
   if (tolower(sex) == "all") {
@@ -87,7 +87,14 @@ get_length_weight <- function(channel, year=1994, species="all", sex="all"){
   sqlcolName <- "select COLUMN_NAME from ALL_TAB_COLUMNS where TABLE_NAME = 'UNION_FSCS_SVBIO' and owner='SVDBS';"
   colNames <- RODBC::sqlQuery(channel,sqlcolName,errors=TRUE,as.is=TRUE)
 
-  return (list(data=dplyr::as_tibble(query),sql=sqlStatement, colNames=colNames))
+  query <- dplyr::as_tibble(query)
+  query$SEASON <- as.factor(query$SEASON)
+  query$LENGTH <- as.numeric(query$LENGTH)
+  query$INDWT <- as.numeric(query$INDWT)
+  query$SEX <- as.factor(query$SEX)
+
+
+  return (list(data =query,sql=sqlStatement, colNames=colNames))
 }
 
 
