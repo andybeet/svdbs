@@ -41,14 +41,15 @@
 
 get_length_weight <- function(channel, year=1994, species="all", sex="all"){
 
-  if ((year == "all") & (species == "all")) stop("Can not pull all species and all years. Too much data!!")
-
+  if((length(year) == 1) & (length(species) == 1)) {
+    if ((year == "all") & (species == "all")) stop("Can not pull all species and all years. Too much data!!")
+  }
   # create an SQL query to extract all relavent data from tables
   # list of strings to build where clause in sql statement
   whereVec <- list()
 
   whereVec[[1]] <-  createString(itemName="svspp",species,convertToCharacter=TRUE,numChars=3)
-  whereVec[[3]] <-  createStringYear(itemName="year",year,convertToCharacter=TRUE,numChars=4)
+  whereVec[[3]] <-  createStringYear(itemName="m.cruise6",year,convertToCharacter=TRUE,numChars=4)
 
   # sex conversion
   if (tolower(sex) == "all") {
@@ -72,20 +73,21 @@ get_length_weight <- function(channel, year=1994, species="all", sex="all"){
     whereStr <- paste(whereStr,item,"and")
   }
 
-
-
   # eventually user will be able to pass these variables
   sqlStatement <- "select m.cruise6, m.stratum, m.tow, m.station, m.svspp, m.sex, m.indid, m.length, m.indwt, s.season
                     from svdbs.union_fscs_svbio m LEFT JOIN svdbs.svdbs_cruises s
                     ON m.cruise6 = s.cruise6 "
 
   sqlStatement <- paste(sqlStatement,whereStr)
+print(sqlStatement)
   # call database
-  query <- RODBC::sqlQuery(channel,sqlStatement,errors=TRUE,as.is=TRUE)
+#  query <- RODBC::sqlQuery(channel,sqlStatement)
+  query <- DBI::dbGetQuery(channel,sqlStatement)
 
   # column names
   sqlcolName <- "select COLUMN_NAME from ALL_TAB_COLUMNS where TABLE_NAME = 'UNION_FSCS_SVBIO' and owner='SVDBS';"
-  colNames <- RODBC::sqlQuery(channel,sqlcolName,errors=TRUE,as.is=TRUE)
+  colNames <- DBI::dbGetQuery(channel,sqlcolName)
+  #colNames <- RODBC::sqlQuery(channel,sqlcolName)
 
   query <- dplyr::as_tibble(query)
   query$SEASON <- as.factor(query$SEASON)
