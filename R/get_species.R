@@ -47,19 +47,17 @@
 #'}
 #'
 #' @export
-#'
-#
 
 get_species <- function(channel,species="all"){
 
   # creates the sql based on user input
   sqlStatement <- create_sql_svdbs(species,fieldName="svspp",fieldName2="comname",dataType="%03d",defaultSqlStatement="select * from svdbs.svspecies_list")
 
-  query <- RODBC::sqlQuery(channel,sqlStatement,errors=TRUE,as.is=TRUE)
+  query <- DBI::dbGetQuery(channel,sqlStatement)
 
   # get column names
   sqlcolName <- "select COLUMN_NAME from ALL_TAB_COLUMNS where TABLE_NAME = 'SVSPECIES_LIST' and owner='SVDBS';"
-  colNames <- t(RODBC::sqlQuery(channel,sqlcolName,errors=TRUE,as.is=TRUE))
+  colNames <- t(DBI::dbGetQuery(channel,sqlcolName))
 
   return (list(data=dplyr::as_tibble(query),sql=sqlStatement, colNames=colNames))
 
