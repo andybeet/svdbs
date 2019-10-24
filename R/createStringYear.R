@@ -23,18 +23,39 @@
 createStringYear <- function(itemName,chosenItem,convertToCharacter,numChars) {
 
   if (is.numeric(chosenItem) && (convertToCharacter==TRUE)) { # need to convert numeric to character for sql
-    str <- sprintf(paste0("%0",numChars,"d"),chosenItem)
-    str <- paste0("'", str, "%'", collapse=", ")
-    itemStr <-  paste0(" (",itemName," like (",str,"))")
+    itemStr <- NULL
+    isor = ""
+    for (iy in 1:length(chosenItem)) {
+      if (iy > 1) isor = " or "
+      str <- sprintf(paste0("%0",numChars,"d"),chosenItem[iy])
+      str <- paste0("'", str, "%'", collapse=", ")
+      itemStr <- paste0(itemStr,isor,paste0(" (",itemName," like (",str,"))"))
+    }
+    itemStr <- paste0("(",itemStr,")")
+
   } else if (is.numeric(chosenItem) && (convertToCharacter==FALSE)) {
     itemStr <-  paste0(" (",itemName," like (",toString(paste0(chosenItem,"%")),"))")
-  } else { # not numeric
-    if (tolower(chosenItem)=="all"){
-      itemStr <-  NULL
-    } else {
-      stop(paste0("Not coded for yet -- createString:",itemName," with ",chosenItem))
-    }
+    # this will need to be ammended at some point
 
+  } else { # not numeric
+    if (length(chosenItem) == 1) {
+      if (tolower(chosenItem)=="all") {
+        itemStr <-  NULL
+      } else { # character string
+        str <- paste0("'", chosenItem, "'%", collapse=", ")
+        itemStr <- paste0(" (",itemName," like (",str,"))")
+      }
+    } else { # character vector code. separate by or
+      itemStr <- NULL
+      isor = ""
+      for (iy in 1:length(chosenItem)) {
+        if (iy > 1) isor = " or "
+        str <- paste0("'", chosenItem[iy], "%'", collapse=", ")
+        itemStr <- paste0(itemStr,isor,paste0(" (",itemName," like (",str,"))"))
+      }
+      itemStr <- paste0("(",itemStr,")")
+      #stop(paste0("Not coded for yet -- createString:",itemName," with ",chosenItem))
+    }
   }
   return(itemStr)
 }

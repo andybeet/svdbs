@@ -4,6 +4,7 @@
 #'This data is extracted from svdbs.union_fscs_svbio
 #'
 #' @param channel an RODBC object (see \code{\link{connect_to_database}})
+#' @param year Numeric or character vector or scalar. Year(s) to pull. (Uses the cruise6 field to search for year). Default = 1994.
 #' @param species a specific species code or set of codes. Either numeric or character vector. Defaults to "all" species.
 #' Numeric codes are converted to VARCHAR2(3 BYTE) when creating the sql statement. Character codes are short character strings.
 #' @param sex character vector. Default = "all". options "M" (male), "F" (female), "U" (unsexed)
@@ -28,6 +29,9 @@
 #' channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 #' get_length_age(channel,species=73)
 #'
+#'
+#'
+#' #### THIS PART NOT YET COMPLETE ############
 #' # extracts info for cod ("COD")
 #' channel <- connect_to_database(server="name_of_server",uid="individuals_username")
 #' get_length_age(channel,"cod") or
