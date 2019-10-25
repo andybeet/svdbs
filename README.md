@@ -16,7 +16,7 @@ Benefits:
 
 ### Installation
 
-devtools::install_github("andybeet/svdbs",build_vignettes = TRUE)
+remotes::install_github("andybeet/svdbs",build_vignettes = TRUE)
 
 ### Help
 

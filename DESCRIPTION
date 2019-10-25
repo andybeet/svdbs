@@ -1,6 +1,6 @@
 Package: svdbs
 Type: Package
-Title: Pulls and analyses data from the NEFSC survey database
+Title: Pulls data from the NEFSC survey database
 Version: 0.1.0
 Author: c(person("Andy", "Beet", email = "andrew.beet@noaa.gov", role = c("aut"", "cre")),
 				person("Laurel", "Col", email = "laurel.col@noaa.gov", role = c("aut")),
@@ -16,7 +16,8 @@ Imports:
     getPass (>= 0.2.2),
     dplyr,
     DBI,
-    odbc
+    odbc,
+    dbutils
 RoxygenNote: 6.1.1
 Suggests: 
     knitr,
