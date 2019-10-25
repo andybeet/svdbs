@@ -52,8 +52,8 @@ get_length_weight <- function(channel, year=1994, species="all", sex="all"){
   # list of strings to build where clause in sql statement
   whereVec <- list()
 
-  whereVec[[1]] <-  createString(itemName="svspp",species,convertToCharacter=TRUE,numChars=3)
-  whereVec[[3]] <-  createStringYear(itemName="m.cruise6",year,convertToCharacter=TRUE,numChars=4)
+  whereVec[[1]] <-  dbutils::createString(itemName="svspp",species,convertToCharacter=TRUE,numChars=3)
+  whereVec[[3]] <-  dbutils::createStringYear(itemName="m.cruise6",year,convertToCharacter=TRUE,numChars=4)
 
   # sex conversion
   if (tolower(sex) == "all") {
@@ -83,15 +83,13 @@ get_length_weight <- function(channel, year=1994, species="all", sex="all"){
                     ON m.cruise6 = s.cruise6 "
 
   sqlStatement <- paste(sqlStatement,whereStr)
-print(sqlStatement)
+
   # call database
-#  query <- RODBC::sqlQuery(channel,sqlStatement)
   query <- DBI::dbGetQuery(channel,sqlStatement)
 
   # column names
   sqlcolName <- "select COLUMN_NAME from ALL_TAB_COLUMNS where TABLE_NAME = 'UNION_FSCS_SVBIO' and owner='SVDBS';"
   colNames <- DBI::dbGetQuery(channel,sqlcolName)
-  #colNames <- RODBC::sqlQuery(channel,sqlcolName)
 
   query <- dplyr::as_tibble(query)
   query$SEASON <- as.factor(query$SEASON)

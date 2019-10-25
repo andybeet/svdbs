@@ -51,7 +51,7 @@
 get_species <- function(channel,species="all"){
 
   # creates the sql based on user input
-  sqlStatement <- create_sql_svdbs(species,fieldName="svspp",fieldName2="comname",dataType="%03d",defaultSqlStatement="select * from svdbs.svspecies_list")
+  sqlStatement <- dbutils::create_sql(species,fieldName="svspp",fieldName2="comname",dataType="%03d",defaultSqlStatement="select * from svdbs.svspecies_list")
 
   query <- DBI::dbGetQuery(channel,sqlStatement)
 

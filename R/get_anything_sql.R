@@ -42,7 +42,8 @@
 get_anything_sql <- function(channel,sqlStatement) {
 
   if (grepl("\\*",sqlStatement)) {
-    warning ("Can not use wild card in sql statement - Your computer memory couldn't handle it!!! ")
+    warning ("Use of wild card in sql statement - You may be pulling too much data, your computer memory could get maxed out!!! ")
+
     #query <- NULL
     query <- DBI::dbGetQuery(channel,sqlStatement)
 
