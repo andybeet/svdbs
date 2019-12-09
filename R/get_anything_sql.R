@@ -3,7 +3,8 @@
 #'Extract any information from any database. This function is for people who know sql and understand the database well enough
 #'to write their own sql statements. For all others, please use other functions in package
 #'
-#' @param channel an RODBC object (see \code{\link{connect_to_database}})
+#' @param channel an Object inherited from \link[DBI]{DBIConnection-class}. This object is used to connect
+#' to communicate with the database engine. (see \code{\link{connect_to_database}})
 #' @param sqlStatement an sql statement
 #' @return A list is returned:
 #'

@@ -7,7 +7,8 @@
 get_length_weight(channel, year = 1994, species = "all", sex = "all")
 }
 \arguments{
-\item{channel}{an RODBC object (see \code{\link{connect_to_database}})}
+\item{channel}{an Object inherited from \link[DBI]{DBIConnection-class}. This object is used to connect
+to communicate with the database engine. (see \code{\link{connect_to_database}})}
 
 \item{year}{Numeric or character vector or scalar. Year(s) to pull. (Uses the cruise6 field to search for year). Default = 1994.}
 
