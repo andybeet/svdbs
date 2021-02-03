@@ -1,6 +1,6 @@
 # svdbs: In Development
 
-![gitleaks](https://github.com/NOAA-EDAB/LeMANS/workflows/gitleaks/badge.svg)
+![gitleaks](https://github.com/andybeet/svdbs/workflows/gitleaks/badge.svg)
 
 
 
